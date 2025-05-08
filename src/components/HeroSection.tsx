@@ -1,96 +1,127 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image'; // Keep for potential image use
-import { useState } from 'react'; // Import useState for hover interactions
+import Image from 'next/image';
+import { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 
 // Updated category data structure
 const categoriesData = [
   {
-    name: "Women's Fashion",
-    href: "/category/womens-fashion",
-    icon: "👗", // Placeholder icon
+    name: "Computer, Office, Stationery", // Full name for flyout title or alt text
+    displayShort: "Computer / Office / stati", // Short display text for sidebar
+    href: "/category/computer-office",
+    icon: "💻", // Changed icon to be more relevant
     subCategories: [
-      { name: "Dresses", href: "/category/womens-fashion/dresses", subLinks: ["Summer Dresses", "Party Dresses", "Casual Dresses"] },
-      { name: "Tops", href: "/category/womens-fashion/tops", subLinks: ["Blouses", "T-Shirts", "Knitwear"] },
-      { name: "Shoes", href: "/category/womens-fashion/shoes", subLinks: ["Heels", "Flats", "Sneakers"] },
-      { name: "Accessories", href: "/category/womens-fashion/accessories", subLinks: ["Handbags", "Jewelry", "Scarves"] },
+      { name: "Laptops", href: "/category/computer-office/laptops", subLinks: ["Gaming Laptops", "Ultrabooks"] },
+      { name: "Desktops", href: "/category/computer-office/desktops", subLinks: ["All-in-Ones", "Towers"] },
+      { name: "Office Supplies", href: "/category/computer-office/supplies", subLinks: ["Printers", "Monitors"] },
     ],
-    promoImage: "/promos/womens-fashion.jpg", // Placeholder promo image path
-    promoLink: "/promo/womens-special"
+    promoImage: "/promos/office-promo.jpg",
+    promoLink: "/promo/office-deals"
   },
   {
-    name: "Men's Fashion",
-    href: "/category/mens-fashion",
-    icon: "👔",
-    subCategories: [
-      { name: "Shirts", href: "/category/mens-fashion/shirts", subLinks: ["Formal Shirts", "Casual Shirts"] },
-      { name: "Pants", href: "/category/mens-fashion/pants", subLinks: ["Chinos", "Jeans"] },
-      { name: "Outerwear", href: "/category/mens-fashion/outerwear", subLinks: ["Jackets", "Coats"] },
-      { name: "Shoes", href: "/category/mens-fashion/shoes", subLinks: ["Formal Shoes", "Sneakers"] },
-    ],
-  },
-  {
-    name: "Electronics",
-    href: "/category/electronics",
+    name: "Household Appliances, Mobile Phones",
+    displayShort: "household appliance / cell",
+    href: "/category/appliances-mobile",
     icon: "📱",
     subCategories: [
-      { name: "Smartphones", href: "/category/electronics/smartphones", subLinks: ["New Releases", "Accessories"] },
-      { name: "Laptops", href: "/category/electronics/laptops", subLinks: ["Gaming Laptops", "Ultrabooks"] },
-      { name: "Audio", href: "/category/electronics/audio", subLinks: ["Headphones", "Speakers"] },
-      { name: "Cameras", href: "/category/electronics/cameras", subLinks: ["DSLR", "Mirrorless"] },
+      { name: "Smartphones", href: "/category/appliances-mobile/smartphones", subLinks: ["New Releases", "Accessories"] },
+      { name: "Home Appliances", href: "/category/appliances-mobile/home-appliances", subLinks: ["Kitchen", "Cleaning"] },
     ],
-    promoImage: "/promos/electronics-sale.jpg",
-    promoLink: "/promo/electronics-deals"
   },
   {
-    name: "Home & Kitchen",
-    href: "/category/home-kitchen",
-    icon: "🏠",
+    name: "Furniture, Home Decor",
+    displayShort: "furniture / Home / home",
+    href: "/category/furniture-decor",
+    icon: "🛋️", // Changed icon
     subCategories: [
-        { name: "Furniture", href: "/category/home-kitchen/furniture", subLinks: ["Living Room", "Bedroom"] },
-        { name: "Appliances", href: "/category/home-kitchen/appliances", subLinks: ["Kitchen", "Cleaning"] },
-        { name: "Decor", href: "/category/home-kitchen/decor", subLinks: ["Lighting", "Rugs"] },
-        { name: "Bedding & Bath", href: "/category/home-kitchen/bedding-bath", subLinks: ["Towels", "Linens"] },
+        { name: "Living Room", href: "/category/furniture-decor/living-room", subLinks: ["Sofas", "Coffee Tables"] },
+        { name: "Bedroom", href: "/category/furniture-decor/bedroom", subLinks: ["Beds", "Wardrobes"] },
     ]
   },
   {
-    name: "Beauty & Health",
-    href: "/category/beauty-health",
-    icon: "💄",
+    name: "Women\'s Fashion, Men\'s Fashion, Underwear",
+    displayShort: "Ladies / Men / undergarr",
+    href: "/category/fashion-all",
+    icon: "👗",
     subCategories: [
-      { name: "Skincare", href: "/category/beauty-health/skincare", subLinks: ["Moisturizers", "Serums"] },
-      { name: "Makeup", href: "/category/beauty-health/makeup", subLinks: ["Foundation", "Lipstick"] },
-      { name: "Hair Care", href: "/category/beauty-health/haircare", subLinks: ["Shampoo", "Styling"] },
+      { name: "Women\'s Dresses", href: "/category/fashion-all/womens-dresses", subLinks: ["Summer", "Party"] },
+      { name: "Men\'s Shirts", href: "/category/fashion-all/mens-shirts", subLinks: ["Formal", "Casual"] },
     ],
   },
   {
-    name: "Sports & Outdoors",
-    href: "/category/sports-outdoors",
-    icon: "⚽",
+    name: "Shoes, Men\'s Shoes, Bags",
+    displayShort: "Shoes / Men\'s shoes / m",
+    href: "/category/shoes-bags",
+    icon: "👟",
     subCategories: [
-      { name: "Activewear", href: "/category/sports-outdoors/activewear", subLinks: ["Men's", "Women's"] },
-      { name: "Equipment", href: "/category/sports-outdoors/equipment", subLinks: ["Fitness", "Cycling"] },
-      { name: "Outdoor Gear", href: "/category/sports-outdoors/outdoorgear", subLinks: ["Camping", "Hiking"] },
+      { name: "Women\'s Shoes", href: "/category/shoes-bags/womens", subLinks: ["Heels", "Sneakers"] },
+      { name: "Men\'s Shoes", href: "/category/shoes-bags/mens", subLinks: ["Formal", "Boots"] },
     ],
   },
-  // Add a few more to make the list longer
   {
-    name: "Kids & Toys",
-    href: "/category/kids-toys",
+    name: "Watches, Jewelry, Accessories",
+    displayShort: "Watches / jewelry / Acce:",
+    href: "/category/watches-jewelry",
+    icon: "⌚",
+    subCategories: [
+      { name: "Watches", href: "/category/watches-jewelry/watches", subLinks: ["Smartwatches", "Luxury"] },
+      { name: "Jewelry", href: "/category/watches-jewelry/jewelry", subLinks: ["Necklaces", "Rings"] },
+    ],
+  },
+  {
+    name: "Automotive Parts, Cars, Travel",
+    displayShort: "Car / Car / Travel",
+    href: "/category/automotive-travel",
+    icon: "🚗",
+    subCategories: [
+      { name: "Car Parts", href: "/category/automotive-travel/parts" },
+      { name: "Travel Gear", href: "/category/automotive-travel/gear" },
+    ],
+  },
+  {
+    name: "Foodstuff, Fresh Produce, Health",
+    displayShort: "foodstuff / Fresh / health",
+    href: "/category/food-health",
+    icon: "🍎",
+    subCategories: [
+      { name: "Snacks", href: "/category/food-health/snacks" },
+      { name: "Health Supplements", href: "/category/food-health/supplements" },
+    ],
+  },
+  {
+    name: "Mother & Baby, Children\'s Clothing",
+    displayShort: "Mother / Children\'s clothir",
+    href: "/category/mother-baby",
     icon: "🧸",
     subCategories: [
-      { name: "Toys", href: "/category/kids-toys/toys", subLinks: ["Action Figures", "Dolls"] },
-      { name: "Baby Gear", href: "/category/kids-toys/baby-gear", subLinks: ["Strollers", "Car Seats"] },
+      { name: "Baby Gear", href: "/category/mother-baby/baby-gear" },
+      { name: "Kids\' Fashion", href: "/category/mother-baby/kids-fashion" },
     ],
   },
   {
-    name: "Groceries & Pets",
-    href: "/category/groceries-pets",
-    icon: "🛒",
+    name: "Makeup, Personal Care, Cleaning",
+    displayShort: "Make-up / Wash and care",
+    href: "/category/beauty-care",
+    icon: "💄",
     subCategories: [
-      { name: "Fresh Food", href: "/category/groceries-pets/fresh", subLinks: ["Fruits", "Vegetables"] },
-      { name: "Pet Supplies", href: "/category/groceries-pets/pets", subLinks: ["Dog Food", "Cat Toys"] },
+      { name: "Makeup", href: "/category/beauty-care/makeup" },
+      { name: "Skincare", href: "/category/beauty-care/skincare" },
+    ],
+  },
+  {
+    name: "Entertainment, Books, Hobbies",
+    displayShort: "amusement / Books / fre",
+    href: "/category/entertainment-books",
+    icon: "📚",
+    subCategories: [
+      { name: "Books", href: "/category/entertainment-books/books" },
+      { name: "Games", href: "/category/entertainment-books/games" },
     ],
   },
 ];
@@ -99,12 +130,15 @@ const HeroSection = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   return (
-    <section className="bg-gray-100 py-4 md:py-6 relative"> {/* Adjusted padding */}
+    <section className="bg-gray-100 py-3 md:py-4 relative">
       <div className="container mx-auto px-2 sm:px-4">
-        <div className="flex flex-col md:flex-row gap-4">
-          {/* Sidebar: Categories */}
-          <aside className="w-full md:w-60 lg:w-64 bg-red-500 p-2.5 rounded-lg shadow-lg relative z-20"> {/* Changed background to red */}
-            <h2 className="text-sm font-bold mb-1.5 text-white px-1.5">Shop by Category</h2> {/* Changed text to white */}
+        <div className="flex flex-col md:flex-row md:items-stretch gap-3 md:gap-4">
+          {/* Sidebar: Categories - Approx 1/5 width */}
+          <aside className="w-full md:w-[18%] lg:w-[16%] bg-red-500 p-2.5 rounded-lg shadow-lg relative z-20 flex-shrink-0">
+            <h2 className="text-sm font-bold mb-1.5 text-white px-1.5 flex items-center">
+              classify
+              <span className="ml-1.5 bg-white text-red-500 text-[10px] font-bold px-1 py-0.5 rounded-sm">NEW</span>
+            </h2>
             <nav>
               <ul className="space-y-0">
                 {categoriesData.map((category) => (
@@ -116,24 +150,24 @@ const HeroSection = () => {
                   >
                     <Link
                       href={category.href}
-                      className="flex items-center px-1.5 py-1 text-xs text-white bg-red-500 hover:bg-red-600 rounded-md transition-colors duration-150 group"
+                      className="flex items-center px-1.5 py-[3px] text-[11px] leading-tight text-white hover:bg-red-600 rounded-md transition-colors duration-150 group"
                     >
-                      <span className="mr-2 text-sm">{category.icon}</span>
-                      {category.name}
-                      <span className="ml-auto text-gray-200 group-hover:text-white transition-colors duration-150 text-xs">&gt;</span>
+                      <span className="mr-1.5 text-sm">{category.icon}</span>
+                      <span className="truncate">{category.displayShort}</span>
+                      {/* Arrow removed to match image more closely, flyout still works */}
                     </Link>
 
                     {/* Fly-out Menu */}
                     {activeCategory === category.name && (
                       <div
                         className="absolute left-full top-0 -mt-px w-auto min-w-[500px] max-w-[700px] bg-white border border-gray-200 rounded-r-lg shadow-xl p-5 z-30 grid grid-cols-3 gap-x-5 gap-y-3"
-                        style={{ marginLeft: '0px' }} // Adjusted for seamless connection
+                        style={{ marginLeft: '0px' }}
                       >
                         {category.subCategories.map((subCat) => (
                           <div key={subCat.name} className="p-0">
                             <Link href={subCat.href} className="font-semibold text-xs text-gray-800 hover:text-red-500 hover:underline mb-1 block">{subCat.name}</Link>
                             <ul className="space-y-0.5">
-                                {subCat.subLinks?.map(linkName => (
+                                {subCat.subLinks?.map((linkName: string) => ( // Added type for linkName
                                     <li key={linkName}>
                                         <Link href={`${subCat.href}/${linkName.toLowerCase().replace(/\s+/g, '-')}`} className="block text-xxs text-gray-600 hover:text-red-500 hover:underline">
                                             {linkName}
@@ -143,16 +177,14 @@ const HeroSection = () => {
                             </ul>
                           </div>
                         ))}
-                        {/* Promotional Image in Fly-out */}
                         {category.promoImage && (
                             <div className="col-span-3 mt-3 pt-3 border-t border-gray-200">
                                 <Link href={category.promoLink || '#'}
-                                    className="block h-24 rounded overflow-hidden bg-gray-200 flex items-center justify-center text-gray-500 relative"
+                                    // Removed 'block' as 'flex' is present
+                                    className="h-24 rounded overflow-hidden bg-gray-200 flex items-center justify-center text-gray-500 relative"
                                 >
-                                    {/* Placeholder for actual Image component */}
                                     <div className="absolute inset-0 bg-gray-300 animate-pulse rounded"></div>
                                     <span className="relative z-10">Promo: {category.name}</span>
-                                    {/* <Image src={category.promoImage} alt={`${category.name} Promotion`} layout="fill" objectFit="cover" className="rounded" /> */}
                                 </Link>
                             </div>
                         )}
@@ -162,49 +194,86 @@ const HeroSection = () => {
                 ))}
               </ul>
             </nav>
-            {/* Removed View All Categories link for now to match Tmall's typical hero category display */}
           </aside>
 
-          {/* Main Content: Carousel and Small Banners */}
-          <main className="w-full md:flex-1 relative z-10"> {/* Adjusted width, z-index */}
-            {/* Main Carousel/Banner Placeholder */}
-            <div className="bg-gradient-to-r from-pink-400 to-red-500 text-white h-64 md:h-[calc(100%-0px)] lg:h-[calc(100%-0px)] rounded-lg shadow-lg flex items-center justify-center p-6 mb-4 md:mb-0"> {/* Adjusted height and margin */}
-              <div className="text-center">
-                <h1 className="text-3xl md:text-4xl font-bold mb-3">
-                  Exclusive Deals Just For You!
-                </h1>
-                <p className="text-md md:text-lg mb-5">
-                  Top brands, amazing prices. Don&apos;t miss out.
-                </p>
-                <Link
-                  href="/promotions/main-event"
-                  className="bg-white text-red-500 font-semibold py-2.5 px-6 rounded-md hover:bg-gray-100 transition-colors text-base"
-                >
-                  Shop The Event
-                </Link>
-              </div>
+          {/* Main Carousel - Approx 2/5 width */}
+          <main className="w-full md:w-[38%] lg:w-[40%] relative z-10 flex-shrink-0">
+            <div className="h-full rounded-lg shadow-lg overflow-hidden">
+              <Swiper
+                modules={[Navigation, Pagination, Autoplay]}
+                spaceBetween={0}
+                slidesPerView={1}
+                navigation
+                pagination={{ clickable: true }}
+                autoplay={{ delay: 5000, disableOnInteraction: false }}
+                loop={true}
+                className="h-full w-full"
+              >
+                {[1, 2, 3].map((item) => (
+                  <SwiperSlide key={item} className={`bg-gradient-to-r ${item === 1 ? 'from-red-400 to-orange-400' : item === 2 ? 'from-blue-400 to-indigo-500' : 'from-green-400 to-teal-500'} text-white flex items-center justify-center p-6`}>
+                    <div className="text-center">
+                      <h2 className="text-2xl md:text-3xl font-bold mb-2">
+                        爆款直降低至9折! Slide {item}
+                      </h2>
+                      <p className="text-sm md:text-base mb-4">
+                        一起淘惊喜 - Offer {item}.
+                      </p>
+                      <Link
+                        href={`/promotions/main-event-${item}`}
+                        className="bg-white text-red-500 font-semibold py-2 px-5 rounded-md hover:bg-gray-100 transition-colors text-sm"
+                      >
+                        Shop The Event
+                      </Link>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
-
-            {/* Smaller Promotional Banners Placeholders - Tmall often has these outside the immediate hero or integrated differently, so removing for now to focus on sidebar + main banner */}
-            {/* 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-              {[1, 2, 3].map((item) => (
-                <div
-                  key={item}
-                  className="bg-white h-32 rounded-lg shadow p-4 flex flex-col justify-between hover:shadow-xl transition-shadow"
-                >
-                  <div>
-                    <h3 className="font-semibold text-gray-700">Promo Banner {item}</h3>
-                    <p className="text-xs text-gray-500">Special offer inside.</p>
-                  </div>
-                  <Link href={`/promo/${item}`} className="text-sm text-red-500 hover:underline self-start font-medium">
-                    Learn More
-                  </Link>
-                </div>
-              ))}
-            </div> 
-            */}
           </main>
+
+          {/* Smaller Promotional Blocks - Approx 1/5 to 2/5 width */}
+          <aside className="w-full md:w-[24%] lg:w-[24%] flex flex-col space-y-3 md:space-y-4 flex-shrink-0 md:self-stretch">
+            {/* Placeholder for multiple small promo blocks */}
+            {[1, 2, 3].map(item => (
+                 <div key={item} className="bg-white p-2.5 rounded-lg shadow-md flex flex-col flex-1">
+                    <h3 className="text-xs font-semibold text-gray-700 mb-1 truncate">Promo Block Title {item}</h3>
+                    <div className="flex gap-2 flex-1">
+                        <div className="w-1/2 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-xs">Img A</div>
+                        <div className="w-1/2 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-xs">Img B</div>
+                    </div>
+                </div>
+            ))}
+          </aside>
+
+          {/* User/Login Panel - Approx 1/5 width */}
+          <aside className="w-full md:w-[20%] lg:w-[20%] bg-white p-3 rounded-lg shadow-md flex-shrink-0 md:self-stretch">
+            <div className="text-center">
+                <div className="flex items-center justify-center mb-2">
+                    {/* Placeholder for user avatar */}
+                    <div className="w-10 h-10 rounded-full bg-orange-300 flex items-center justify-center text-white font-bold text-lg">?</div> 
+                    <p className="ml-2 text-sm font-semibold text-gray-700">Good evening</p>
+                </div>
+                <p className="text-xs text-gray-500 mb-1">Sign up to open a store</p>
+                <p className="text-sm font-medium text-gray-800 mb-2">Ideal life on Tmall</p>
+                <p className="text-xs text-gray-500 mb-3">Hey! Better understand your</p>
+                <Link href="/login" className="block w-full bg-red-500 text-white py-2 rounded-md text-sm font-semibold hover:bg-red-600 transition-colors mb-3">
+                    Log in now
+                </Link>
+                <div className="grid grid-cols-4 gap-1 text-xs text-gray-600 mb-3">
+                    {/* Placeholder icons - replace with actual icons */}
+                    <div className="flex flex-col items-center"><span className="text-lg">⭐</span><span>Baby Colle...</span></div>
+                    <div className="flex flex-col items-center"><span className="text-lg">📄</span><span>tioght sh...</span></div>
+                    <div className="flex flex-col items-center"><span className="text-lg">💖</span><span>favorite s...</span></div>
+                    <div className="flex flex-col items-center"><span className="text-lg">👣</span><span>footpri...</span></div>
+                </div>
+                <div className="grid grid-cols-4 gap-1">
+                    {/* Placeholder app icons */}
+                    {[1,2,3,4,5,6,7,8].map(i => (
+                        <div key={i} className="w-8 h-8 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-[10px]">App{i}</div>
+                    ))}
+                </div>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
