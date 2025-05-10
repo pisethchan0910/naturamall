@@ -2,9 +2,9 @@ import Link from 'next/link';
 
 const Header = () => {
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header className="bg-white sticky top-0 z-50"> {/* Removed shadow-md */}
       {/* Top Bar */}
-      <div className="bg-gray-50 py-2 text-xs text-gray-500 border-b border-gray-200">
+      <div className="bg-white py-2 text-xs text-gray-500 border-b border-gray-200"> {/* Added bg-white */}
         <div className="container mx-auto flex flex-wrap justify-between items-center px-2 sm:px-4">
           <div className="flex space-x-2 sm:space-x-3 mb-1 sm:mb-0">
             <Link href="/login" className="hover:text-red-500 hover:underline">Login</Link>

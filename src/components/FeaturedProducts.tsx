@@ -96,7 +96,7 @@ const placeholderProducts: Product[] = [
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
-    <Link href={product.href} className="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group">
+    <Link href={product.href} className="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group"> {/* Added bg-white */}
       <div className="relative w-full h-48 sm:h-56 md:h-60 bg-gray-200">
         {/* Placeholder for Image - Tmall often has images that fit the container */}
         {/* <Image src={product.imageUrl} alt={product.name} layout="fill" objectFit="cover" className="group-hover:scale-105 transition-transform duration-300" /> */}
@@ -127,7 +127,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
 const FeaturedProducts = () => {
   return (
-    <section className="py-8 md:py-12 bg-gray-50">
+    <section className="bg-white py-8 md:py-12"> {/* Added bg-white */}
       <div className="container mx-auto px-2 sm:px-4">
         <div className="flex justify-between items-center mb-6 md:mb-8">
           <h2 className="text-xl md:text-2xl font-bold text-gray-800">猜你喜欢 - Guess You Like</h2>

@@ -170,7 +170,7 @@ const HeroSection = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   return (
-    <section className="bg-gray-100 py-3 md:py-4 relative">
+    <section className="bg-white py-3 md:py-4 relative"> {/* Added bg-white */}
       <div className="container mx-auto px-2 sm:px-4">
         <div className="flex flex-col md:flex-row md:items-stretch gap-3 md:gap-4">
           {/* Sidebar: Categories - Approx 1/5 width */}
@@ -274,7 +274,7 @@ const HeroSection = () => {
           {/* Smaller Promotional Blocks - Approx 1/5 to 2/5 width */}
           <aside className="w-full md:w-[42%] lg:w-[43%] grid grid-cols-2 gap-3 md:gap-4 flex-shrink-0 md:self-stretch">
             {promoBlocksData.map((block) => (
-              <div key={block.title} className="bg-white p-2.5 rounded-lg shadow-md flex flex-col">
+              <div key={block.title} className="bg-gray-100 p-2.5 rounded-lg shadow-md flex flex-col"> {/* Changed bg-gray-50 to bg-white */}
                 <div className="flex justify-between items-center mb-2 h-5"> 
                   <h3 className="text-sm font-bold text-gray-800 truncate">{block.title}</h3>
                   <div className="flex items-center"> 
@@ -290,7 +290,7 @@ const HeroSection = () => {
                 </div>
                 <div className="flex gap-2 flex-1">
                   {block.items.map((item, idx) => (
-                    <Link key={item.name} href={item.href} className="flex-1 bg-gray-50 rounded-lg p-1.5 flex flex-col items-center text-center hover:shadow-lg transition-shadow">
+                    <Link key={item.name} href={item.href} className="flex-1 bg-bg-gray-100 rounded-lg p-1.5 flex flex-col items-center text-center hover:shadow-lg transition-shadow"> {/* Changed bg-gray-50 to bg-white */}
                       <div className="w-full h-20 bg-gray-200 rounded mb-1 flex items-center justify-center text-gray-400 text-xs overflow-hidden">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover"/>
@@ -305,7 +305,7 @@ const HeroSection = () => {
           </aside>
 
           {/* User/Login Panel - Approx 1/5 width */}
-          <aside className="w-full md:w-[20%] lg:w-[20%] bg-white p-3 rounded-lg shadow-md flex-shrink-0 md:self-stretch">
+          <aside className="w-full md:w-[20%] lg:w-[20%] bg-gray-100 p-3 rounded-lg shadow-md flex-shrink-0 md:self-stretch">
             <div className="text-center">
                 <div className="flex items-center justify-center mb-2">
                     {/* Placeholder for user avatar */}
