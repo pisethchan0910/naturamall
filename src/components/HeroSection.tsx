@@ -1,13 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
-import { useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { useState } from 'react'; // Added import for useState
 
 // Updated category data structure
 const categoriesData = [
@@ -126,6 +125,47 @@ const categoriesData = [
   },
 ];
 
+const promoBlocksData = [
+  {
+    title: "Billion Subsidies - Price Guarantee",
+    tag: "Limited Time",
+    tagColor: "bg-red-500 text-white",
+    href: "/promo/billion-subsidy",
+    items: [
+      { name: "EcoFlow Delta 2 Max", price: "¥19999", href: "/product/ecoflow-delta-2max", imageUrl: "https://picsum.photos/seed/power_station_electronic/200/200" },
+      { name: "Solid Wood Wardrobe", price: "¥6300", href: "/product/ymmy-wardrobe", imageUrl: "https://picsum.photos/seed/furniture_wardrobe/200/200" },
+    ],
+  },
+  {
+    title: "Taobao Flash Sale",
+    tag: "Super Low Price",
+    tagColor: "bg-orange-400 text-white",
+    href: "/promo/flash-sale",
+    items: [
+      { name: "Air Conditioner", price: "¥2599", href: "/product/air-conditioner", imageUrl: "https://picsum.photos/seed/air_conditioner_electronic/200/200" },
+      { name: "Household Wires", price: "¥11", href: "/product/electrical-wire", imageUrl: "https://picsum.photos/seed/wiring_electronic/200/200" },
+    ],
+  },
+  {
+    title: "Factory Direct",
+    tag: "Super Low Price",
+    tagColor: "bg-orange-400 text-white",
+    href: "/promo/factory-direct",
+    items: [
+      { name: "Quiet Cooling Fan", price: "¥673.50", href: "/product/air-cooler-fan", imageUrl: "https://picsum.photos/seed/fan_electronic/200/200" },
+      { name: "Badminton Racket", price: "¥232.5", href: "/product/badminton-racket", imageUrl: "https://picsum.photos/seed/sports_racket/200/200" },
+    ],
+  },
+  {
+    title: "Everyday Low Price",
+    href: "/promo/everyday-low",
+    items: [
+      { name: "Thin Laptop", price: "¥6816", href: "/product/laptop-thin", imageUrl: "https://picsum.photos/seed/laptop_computer/200/200" },
+      { name: "Gaming Desktop PC", price: "¥1659", href: "/product/desktop-gaming-pc", imageUrl: "https://picsum.photos/seed/desktop_computer_gaming/200/200" },
+    ],
+  },
+];
+
 const HeroSection = () => {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
@@ -183,7 +223,7 @@ const HeroSection = () => {
                                     // Removed 'block' as 'flex' is present
                                     className="h-24 rounded overflow-hidden bg-gray-200 flex items-center justify-center text-gray-500 relative"
                                 >
-                                    <div className="absolute inset-0 bg-gray-300 animate-pulse rounded"></div>
+                                    <div className="absolute inset-0 bg-gray-300 animate-pulse rounded" />
                                     <span className="relative z-10">Promo: {category.name}</span>
                                 </Link>
                             </div>
@@ -197,7 +237,7 @@ const HeroSection = () => {
           </aside>
 
           {/* Main Carousel - Approx 2/5 width */}
-          <main className="w-full md:w-[38%] lg:w-[40%] relative z-10 flex-shrink-0">
+          <main className="w-full md:w-[20%] lg:w-[21%] relative z-10 flex-shrink-0">
             <div className="h-full rounded-lg shadow-lg overflow-hidden">
               <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
@@ -232,16 +272,33 @@ const HeroSection = () => {
           </main>
 
           {/* Smaller Promotional Blocks - Approx 1/5 to 2/5 width */}
-          <aside className="w-full md:w-[24%] lg:w-[24%] flex flex-col space-y-3 md:space-y-4 flex-shrink-0 md:self-stretch">
-            {/* Placeholder for multiple small promo blocks */}
-            {[1, 2, 3].map(item => (
-                 <div key={item} className="bg-white p-2.5 rounded-lg shadow-md flex flex-col flex-1">
-                    <h3 className="text-xs font-semibold text-gray-700 mb-1 truncate">Promo Block Title {item}</h3>
-                    <div className="flex gap-2 flex-1">
-                        <div className="w-1/2 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-xs">Img A</div>
-                        <div className="w-1/2 bg-gray-200 rounded flex items-center justify-center text-gray-400 text-xs">Img B</div>
-                    </div>
+          <aside className="w-full md:w-[42%] lg:w-[43%] grid grid-cols-2 gap-3 md:gap-4 flex-shrink-0 md:self-stretch">
+            {promoBlocksData.map((block) => (
+              <div key={block.title} className="bg-white p-2.5 rounded-lg shadow-md flex flex-col">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-sm font-bold text-gray-800 truncate">{block.title}</h3>
+                  {block.tag && (
+                    <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-sm ${block.tagColor}`}>
+                      {block.tag}
+                    </span>
+                  )}
+                  <Link href={block.href} className="text-xs text-gray-400 hover:text-red-500">
+                    &gt;
+                  </Link>
                 </div>
+                <div className="flex gap-2 flex-1">
+                  {block.items.map((item, idx) => (
+                    <Link key={item.name} href={item.href} className="flex-1 bg-gray-50 rounded-lg p-1.5 flex flex-col items-center text-center hover:shadow-lg transition-shadow">
+                      <div className="w-full h-20 bg-gray-200 rounded mb-1 flex items-center justify-center text-gray-400 text-xs overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover"/>
+                      </div>
+                      <p className="text-xs text-gray-700 leading-tight truncate w-full">{item.name}</p>
+                      <p className="text-xs font-semibold text-red-500">{item.price}</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
             ))}
           </aside>
 
@@ -254,17 +311,17 @@ const HeroSection = () => {
                     <p className="ml-2 text-sm font-semibold text-gray-700">Good evening</p>
                 </div>
                 <p className="text-xs text-gray-500 mb-1">Sign up to open a store</p>
-                <p className="text-sm font-medium text-gray-800 mb-2">Ideal life on Tmall</p>
-                <p className="text-xs text-gray-500 mb-3">Hey! Better understand your</p>
+                <p className="text-sm font-medium text-gray-800 mb-2">Your Ideal Life, on Tmall</p>
+                <p className="text-xs text-gray-500 mb-3">Log in for a better experience</p>
                 <Link href="/login" className="block w-full bg-red-500 text-white py-2 rounded-md text-sm font-semibold hover:bg-red-600 transition-colors mb-3">
-                    Log in now
+                    Log In
                 </Link>
                 <div className="grid grid-cols-4 gap-1 text-xs text-gray-600 mb-3">
                     {/* Placeholder icons - replace with actual icons */}
-                    <div className="flex flex-col items-center"><span className="text-lg">⭐</span><span>Baby Colle...</span></div>
-                    <div className="flex flex-col items-center"><span className="text-lg">📄</span><span>tioght sh...</span></div>
-                    <div className="flex flex-col items-center"><span className="text-lg">💖</span><span>favorite s...</span></div>
-                    <div className="flex flex-col items-center"><span className="text-lg">👣</span><span>footpri...</span></div>
+                    <div className="flex flex-col items-center"><span className="text-lg">⭐</span><span>Collections</span></div>
+                    <div className="flex flex-col items-center"><span className="text-lg">📄</span><span>Followed</span></div>
+                    <div className="flex flex-col items-center"><span className="text-lg">💖</span><span>Wishlist</span></div>
+                    <div className="flex flex-col items-center"><span className="text-lg">👣</span><span>History</span></div>
                 </div>
                 <div className="grid grid-cols-4 gap-1">
                     {/* Placeholder app icons */}
