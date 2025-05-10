@@ -215,9 +215,9 @@ const HeroSection = () => {
   return (
     <section className="bg-white py-3 md:py-4 relative"> {/* Added bg-white */}
       <div className="container mx-auto px-2 sm:px-4">
-        <div className="flex flex-col md:flex-row md:items-stretch gap-3 md:gap-4">
-          {/* Sidebar: Categories - Approx 1/5 width */}
-          <aside className="w-full md:w-1/6 lg:w-1/6 bg-red-500 p-2.5 rounded-lg shadow-lg relative z-20 flex-shrink-0">
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4"> {/* Changed from flex to grid and updated column definitions */}
+          {/* Sidebar: Categories */}
+          <aside className="bg-red-500 p-3 md:p-4 rounded-lg shadow-lg relative z-20"> {/* Removed width, flex-shrink utilities */}
             <h2 className="text-sm font-bold mb-1.5 text-white px-1.5 flex items-center">
               Categories
               <span className="ml-1.5 bg-white text-red-500 text-[10px] font-bold px-1 py-0.5 rounded-sm">NEW</span>
@@ -279,8 +279,8 @@ const HeroSection = () => {
             </nav>
           </aside>
 
-          {/* Main Carousel - Approx 2/5 width */}
-          <main className="w-full md:w-1/6 lg:w-1/6 relative z-10 flex-shrink-0">
+          {/* Main Carousel */}
+          <main className="relative z-10"> {/* Removed width, flex-shrink utilities */}
             <div className="h-full rounded-lg shadow-lg overflow-hidden">
               <Swiper
                 modules={[Pagination, Autoplay]} // Removed Navigation from modules
@@ -295,7 +295,7 @@ const HeroSection = () => {
                 {carouselSlidesData.map((slide) => (
                   <SwiperSlide
                     key={slide.id}
-                    className="text-white flex items-center justify-center p-6 bg-cover bg-center relative"
+                    className="text-white flex items-center justify-center p-3 md:p-4 bg-cover bg-center relative" // Changed p-6 to p-3 md:p-4
                     style={{ backgroundImage: `url('${slide.imageUrl}')` }} // Corrected quotes
                   >
                     {/* Overlay and Content removed to display only image */}
@@ -305,12 +305,12 @@ const HeroSection = () => {
             </div>
           </main>
 
-          {/* Smaller Promotional Blocks - Approx 1/5 to 2/5 width */}
-          <aside className="w-full md:w-3/6 lg:w-3/6 grid grid-cols-3 gap-3 md:gap-4 flex-shrink-0 md:self-stretch"> {/* md:w-1/2 lg:w-1/2 is equivalent to md:w-3/6 lg:w-3/6, changed grid-cols-2 to grid-cols-3 */}
+          {/* Smaller Promotional Blocks */}
+          <aside className="lg:col-span-2 xl:col-span-3 grid grid-cols-3 gap-3 md:gap-4"> {/* Removed width, flex-shrink, self-stretch utilities; Added responsive col-span */}
             {promoBlocksData.map((block, index) => ( // Added index
               <div
                 key={block.title}
-                className={`bg-gray-100 p-2.5 rounded-lg shadow-md flex flex-col ${index === 0 ? 'col-span-2' : ''}`} // Added conditional class
+                className={`bg-gray-100 p-3 md:p-4 rounded-lg shadow-md flex flex-col ${index === 0 ? 'col-span-2' : ''}`} // Changed p-2.5 to p-3 md:p-4
               >
                 <div className="flex justify-between items-center mb-2 h-5"> 
                   <h3 className="text-sm font-bold text-gray-800 truncate">{block.title}</h3>
@@ -328,7 +328,7 @@ const HeroSection = () => {
                 <div className="flex gap-2 flex-1">
                   {block.items.map((item, _itemIdx) => ( // _itemIdx is not used for layout logic here, block's 'index' is
                     index === 0 ? ( // This is the first block (merged one), items are horizontal
-                      <Link key={item.name} href={item.href} className="flex-1 bg-gray-100 rounded-lg p-1.5 flex flex-row items-center hover:shadow-lg transition-shadow overflow-hidden">
+                      <Link key={item.name} href={item.href} className="flex-1 bg-gray-100 rounded-lg p-3 md:p-4 flex flex-row items-center hover:shadow-lg transition-shadow overflow-hidden"> {/* Changed p-1.5 to p-3 md:p-4 */}
                         <div className="w-20 h-20 bg-gray-200 rounded mr-1.5 flex-shrink-0 flex items-center justify-center text-gray-400 text-xs overflow-hidden">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover"/>
@@ -339,7 +339,7 @@ const HeroSection = () => {
                         </div>
                       </Link>
                     ) : ( // These are the other blocks, items are vertical
-                      <Link key={item.name} href={item.href} className="flex-1 bg-gray-100 rounded-lg p-1.5 flex flex-col items-center text-center hover:shadow-lg transition-shadow overflow-hidden">
+                      <Link key={item.name} href={item.href} className="flex-1 bg-gray-100 rounded-lg p-3 md:p-4 flex flex-col items-center text-center hover:shadow-lg transition-shadow overflow-hidden"> {/* Changed p-1.5 to p-3 md:p-4 */}
                         <div className="w-full h-20 bg-gray-200 rounded mb-1 flex items-center justify-center text-gray-400 text-xs overflow-hidden">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover"/>
@@ -354,8 +354,8 @@ const HeroSection = () => {
             ))}
           </aside>
 
-          {/* User/Login Panel - Approx 1/5 width */}
-          <aside className="w-full md:w-1/6 lg:w-1/6 bg-gray-100 p-3 rounded-lg shadow-md flex-shrink-0 md:self-stretch">
+          {/* User/Login Panel */}
+          <aside className="bg-gray-100 p-3 md:p-4 rounded-lg shadow-lg"> {/* Removed width, flex-shrink, self-stretch utilities */}
             <div className="text-center">
                 <div className="flex items-center justify-center mb-2">
                     {/* Placeholder for user avatar */}
