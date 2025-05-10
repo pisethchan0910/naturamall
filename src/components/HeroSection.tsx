@@ -275,16 +275,18 @@ const HeroSection = () => {
           <aside className="w-full md:w-[42%] lg:w-[43%] grid grid-cols-2 gap-3 md:gap-4 flex-shrink-0 md:self-stretch">
             {promoBlocksData.map((block) => (
               <div key={block.title} className="bg-white p-2.5 rounded-lg shadow-md flex flex-col">
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex justify-between items-center mb-2 h-5"> 
                   <h3 className="text-sm font-bold text-gray-800 truncate">{block.title}</h3>
-                  {block.tag && (
-                    <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-sm ${block.tagColor}`}>
-                      {block.tag}
-                    </span>
-                  )}
-                  <Link href={block.href} className="text-xs text-gray-400 hover:text-red-500">
-                    &gt;
-                  </Link>
+                  <div className="flex items-center"> 
+                    {block.tag && (
+                      <span className={`text-xs font-semibold px-1.5 py-0.5 rounded-sm mr-1.5 ${block.tagColor}`}> 
+                        {block.tag}
+                      </span>
+                    )}
+                    <Link href={block.href} className="text-xs text-gray-400 hover:text-red-500">
+                      &gt;
+                    </Link>
+                  </div>
                 </div>
                 <div className="flex gap-2 flex-1">
                   {block.items.map((item, idx) => (
