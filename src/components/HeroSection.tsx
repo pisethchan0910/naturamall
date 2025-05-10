@@ -217,23 +217,23 @@ const HeroSection = () => {
       <div className="container mx-auto px-2 sm:px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4"> {/* Changed from flex to grid and updated column definitions */}
           {/* Sidebar: Categories */}
-          <aside className="bg-red-500 p-3 md:p-4 rounded-lg shadow-lg relative z-20"> {/* Removed width, flex-shrink utilities */}
+          <aside className="bg-red-500 p-3 md:p-4 rounded-lg shadow-lg relative z-20 flex flex-col"> {/* Added flex flex-col */}
             <h2 className="text-sm font-bold mb-1.5 text-white px-1.5 flex items-center">
               Categories
               <span className="ml-1.5 bg-white text-red-500 text-[10px] font-bold px-1 py-0.5 rounded-sm">NEW</span>
             </h2>
-            <nav>
-              <ul className="space-y-0">
+            <nav className="flex-grow"> {/* Added flex-grow */}
+              <ul className="h-full flex flex-col"> {/* Removed space-y-0, added h-full flex flex-col */}
                 {categoriesData.map((category) => (
                   <li
                     key={category.name}
                     onMouseEnter={() => setActiveCategory(category.name)}
                     onMouseLeave={() => setActiveCategory(null)}
-                    className="relative group"
+                    className="relative group flex-grow" /* Added flex-grow */
                   >
                     <Link
                       href={category.href}
-                      className="flex items-center px-1.5 py-[3px] text-[11px] leading-tight text-white hover:bg-white hover:text-black rounded-md transition-colors duration-150 group"
+                      className="h-full flex items-center px-1.5 text-[11px] leading-tight text-white hover:bg-white hover:text-black rounded-md transition-colors duration-150 group" /* Added h-full */
                     >
                       <span className="mr-1.5 text-sm">{category.icon}</span>
                       <span className="truncate">{category.displayShort}</span>
