@@ -233,7 +233,7 @@ const HeroSection = () => {
                   >
                     <Link
                       href={category.href}
-                      className="flex items-center px-1.5 py-[3px] text-[11px] leading-tight text-white hover:bg-red-600 rounded-md transition-colors duration-150 group"
+                      className="flex items-center px-1.5 py-[3px] text-[11px] leading-tight text-white hover:bg-white hover:text-black rounded-md transition-colors duration-150 group"
                     >
                       <span className="mr-1.5 text-sm">{category.icon}</span>
                       <span className="truncate">{category.displayShort}</span>
