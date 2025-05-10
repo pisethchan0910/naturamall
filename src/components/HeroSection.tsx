@@ -2,14 +2,47 @@
 
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import { Pagination, Autoplay } from 'swiper/modules'; // Removed Navigation
 import 'swiper/css';
-import 'swiper/css/navigation';
+// import 'swiper/css/navigation'; // Removed navigation CSS
 import 'swiper/css/pagination';
-import { useState } from 'react'; // Added import for useState
+import { useState } from 'react';
+
+// Define interfaces for category data
+interface SubCategory {
+  name: string;
+  href: string;
+  subLinks?: string[]; // subLinks is optional
+}
+
+interface Category {
+  name: string;
+  displayShort: string;
+  href: string;
+  icon: string;
+  subCategories: SubCategory[];
+  promoImage?: string;
+  promoLink?: string;
+}
+
+// Data for Carousel Slides
+const carouselSlidesData = [
+  {
+    id: 1,
+    imageUrl: "/assets/a.jpg", // Updated path
+  },
+  {
+    id: 2,
+    imageUrl: "/assets/b.jpg", // Updated path
+  },
+  {
+    id: 3,
+    imageUrl: "/assets/c.jpg", // Updated path
+  },
+];
 
 // Updated category data structure
-const categoriesData = [
+const categoriesData: Category[] = [
   {
     name: "Computer, Office, Stationery", // Full name for flyout title or alt text
     displayShort: "Computer / Office / stati", // Short display text for sidebar
@@ -250,31 +283,22 @@ const HeroSection = () => {
           <main className="w-full md:w-1/6 lg:w-1/6 relative z-10 flex-shrink-0">
             <div className="h-full rounded-lg shadow-lg overflow-hidden">
               <Swiper
-                modules={[Navigation, Pagination, Autoplay]}
+                modules={[Pagination, Autoplay]} // Removed Navigation from modules
                 spaceBetween={0}
                 slidesPerView={1}
-                navigation
+                // navigation // Navigation prop removed
                 pagination={{ clickable: true }}
                 autoplay={{ delay: 5000, disableOnInteraction: false }}
                 loop={true}
                 className="h-full w-full"
               >
-                {[1, 2, 3].map((item) => (
-                  <SwiperSlide key={item} className={`bg-gradient-to-r ${item === 1 ? 'from-red-400 to-orange-400' : item === 2 ? 'from-blue-400 to-indigo-500' : 'from-green-400 to-teal-500'} text-white flex items-center justify-center p-6`}>
-                    <div className="text-center">
-                      <h2 className="text-2xl md:text-3xl font-bold mb-2">
-                        爆款直降低至9折! Slide {item}
-                      </h2>
-                      <p className="text-sm md:text-base mb-4">
-                        一起淘惊喜 - Offer {item}.
-                      </p>
-                      <Link
-                        href={`/promotions/main-event-${item}`}
-                        className="bg-white text-red-500 font-semibold py-2 px-5 rounded-md hover:bg-gray-100 transition-colors text-sm"
-                      >
-                        Shop The Event
-                      </Link>
-                    </div>
+                {carouselSlidesData.map((slide) => (
+                  <SwiperSlide
+                    key={slide.id}
+                    className="text-white flex items-center justify-center p-6 bg-cover bg-center relative"
+                    style={{ backgroundImage: `url('${slide.imageUrl}')` }} // Corrected quotes
+                  >
+                    {/* Overlay and Content removed to display only image */}
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -361,6 +385,16 @@ const HeroSection = () => {
           </aside>
         </div>
       </div>
+      <style jsx global>{`
+        .swiper-pagination-bullet {
+          background-color: white !important;
+          opacity: 0.7; /* Optional: for a slight difference for inactive bullets */
+        }
+        .swiper-pagination-bullet-active {
+          background-color: white !important;
+          opacity: 1;
+        }
+      `}</style>
     </section>
   );
 };
