@@ -164,6 +164,16 @@ const promoBlocksData = [
       { name: "Gaming Desktop PC", price: "¥1659", href: "/product/desktop-gaming-pc", imageUrl: "https://picsum.photos/seed/desktop_computer_gaming/200/200" },
     ],
   },
+  {
+    title: "Tech Gadgets Galore",
+    tag: "Hot New",
+    tagColor: "bg-teal-500 text-white",
+    href: "/promo/tech-gadgets",
+    items: [
+      { name: "Wireless Charger Pad", price: "¥199", href: "/product/wireless-charger", imageUrl: "https://picsum.photos/seed/charger_tech/200/200" },
+      { name: "Bluetooth Speaker Mini", price: "¥350", href: "/product/bluetooth-speaker", imageUrl: "https://picsum.photos/seed/speaker_audio/200/200" },
+    ],
+  }
 ];
 
 const HeroSection = () => {
@@ -174,9 +184,9 @@ const HeroSection = () => {
       <div className="container mx-auto px-2 sm:px-4">
         <div className="flex flex-col md:flex-row md:items-stretch gap-3 md:gap-4">
           {/* Sidebar: Categories - Approx 1/5 width */}
-          <aside className="w-full md:w-[18%] lg:w-[16%] bg-red-500 p-2.5 rounded-lg shadow-lg relative z-20 flex-shrink-0">
+          <aside className="w-full md:w-1/6 lg:w-1/6 bg-red-500 p-2.5 rounded-lg shadow-lg relative z-20 flex-shrink-0">
             <h2 className="text-sm font-bold mb-1.5 text-white px-1.5 flex items-center">
-              classify
+              Categories
               <span className="ml-1.5 bg-white text-red-500 text-[10px] font-bold px-1 py-0.5 rounded-sm">NEW</span>
             </h2>
             <nav>
@@ -237,7 +247,7 @@ const HeroSection = () => {
           </aside>
 
           {/* Main Carousel - Approx 2/5 width */}
-          <main className="w-full md:w-[20%] lg:w-[21%] relative z-10 flex-shrink-0">
+          <main className="w-full md:w-1/6 lg:w-1/6 relative z-10 flex-shrink-0">
             <div className="h-full rounded-lg shadow-lg overflow-hidden">
               <Swiper
                 modules={[Navigation, Pagination, Autoplay]}
@@ -272,9 +282,12 @@ const HeroSection = () => {
           </main>
 
           {/* Smaller Promotional Blocks - Approx 1/5 to 2/5 width */}
-          <aside className="w-full md:w-[42%] lg:w-[43%] grid grid-cols-2 gap-3 md:gap-4 flex-shrink-0 md:self-stretch">
-            {promoBlocksData.map((block) => (
-              <div key={block.title} className="bg-gray-100 p-2.5 rounded-lg shadow-md flex flex-col"> {/* Changed bg-gray-50 to bg-white */}
+          <aside className="w-full md:w-3/6 lg:w-3/6 grid grid-cols-3 gap-3 md:gap-4 flex-shrink-0 md:self-stretch"> {/* md:w-1/2 lg:w-1/2 is equivalent to md:w-3/6 lg:w-3/6, changed grid-cols-2 to grid-cols-3 */}
+            {promoBlocksData.map((block, index) => ( // Added index
+              <div
+                key={block.title}
+                className={`bg-gray-100 p-2.5 rounded-lg shadow-md flex flex-col ${index === 0 ? 'col-span-2' : ''}`} // Added conditional class
+              >
                 <div className="flex justify-between items-center mb-2 h-5"> 
                   <h3 className="text-sm font-bold text-gray-800 truncate">{block.title}</h3>
                   <div className="flex items-center"> 
@@ -289,15 +302,28 @@ const HeroSection = () => {
                   </div>
                 </div>
                 <div className="flex gap-2 flex-1">
-                  {block.items.map((item, idx) => (
-                    <Link key={item.name} href={item.href} className="flex-1 bg-bg-gray-100 rounded-lg p-1.5 flex flex-col items-center text-center hover:shadow-lg transition-shadow"> {/* Changed bg-gray-50 to bg-white */}
-                      <div className="w-full h-20 bg-gray-200 rounded mb-1 flex items-center justify-center text-gray-400 text-xs overflow-hidden">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover"/>
-                      </div>
-                      <p className="text-xs text-gray-700 leading-tight truncate w-full">{item.name}</p>
-                      <p className="text-xs font-semibold text-red-500">{item.price}</p>
-                    </Link>
+                  {block.items.map((item, _itemIdx) => ( // _itemIdx is not used for layout logic here, block's 'index' is
+                    index === 0 ? ( // This is the first block (merged one), items are horizontal
+                      <Link key={item.name} href={item.href} className="flex-1 bg-gray-100 rounded-lg p-1.5 flex flex-row items-center hover:shadow-lg transition-shadow overflow-hidden">
+                        <div className="w-20 h-20 bg-gray-200 rounded mr-1.5 flex-shrink-0 flex items-center justify-center text-gray-400 text-xs overflow-hidden">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover"/>
+                        </div>
+                        <div className="flex flex-col text-left flex-grow min-w-0"> {/* min-w-0 for better truncation */}
+                          <p className="text-xs text-gray-700 leading-tight truncate w-full">{item.name}</p>
+                          <p className="text-xs font-semibold text-red-500">{item.price}</p>
+                        </div>
+                      </Link>
+                    ) : ( // These are the other blocks, items are vertical
+                      <Link key={item.name} href={item.href} className="flex-1 bg-gray-100 rounded-lg p-1.5 flex flex-col items-center text-center hover:shadow-lg transition-shadow overflow-hidden">
+                        <div className="w-full h-20 bg-gray-200 rounded mb-1 flex items-center justify-center text-gray-400 text-xs overflow-hidden">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={item.imageUrl} alt={item.name} className="w-full h-full object-cover"/>
+                        </div>
+                        <p className="text-xs text-gray-700 leading-tight truncate w-full">{item.name}</p>
+                        <p className="text-xs font-semibold text-red-500">{item.price}</p>
+                      </Link>
+                    )
                   ))}
                 </div>
               </div>
@@ -305,7 +331,7 @@ const HeroSection = () => {
           </aside>
 
           {/* User/Login Panel - Approx 1/5 width */}
-          <aside className="w-full md:w-[20%] lg:w-[20%] bg-gray-100 p-3 rounded-lg shadow-md flex-shrink-0 md:self-stretch">
+          <aside className="w-full md:w-1/6 lg:w-1/6 bg-gray-100 p-3 rounded-lg shadow-md flex-shrink-0 md:self-stretch">
             <div className="text-center">
                 <div className="flex items-center justify-center mb-2">
                     {/* Placeholder for user avatar */}
