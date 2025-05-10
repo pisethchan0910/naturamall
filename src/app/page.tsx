@@ -10,21 +10,6 @@ export default function HomePage() {
       <div className="container mx-auto p-4">
         {/* Main Content - Header is now in layout.tsx */}
 
-        {/* Placeholder for Product Categories - This might be redundant if HeroSection covers it, or could be a different style of category display */}
-        <section className="my-8">
-          <h2 className="text-2xl font-semibold mb-4">More Categories</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className="bg-gray-100 p-4 rounded-lg text-center hover:shadow-lg transition-shadow"
-              >
-                Category Link {i}
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* Placeholder for Featured Products - This is now handled by the FeaturedProducts component */}
         {/* <section className="my-8">
           <h2 className="text-2xl font-semibold mb-4">Featured Products</h2>
