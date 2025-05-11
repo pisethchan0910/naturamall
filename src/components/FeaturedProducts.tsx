@@ -1,7 +1,6 @@
 'use client'; // If we add any client-side interactions like carousels later
 
 import Link from 'next/link';
-import Image from 'next/image';
 
 // Placeholder product data structure
 interface Product {
