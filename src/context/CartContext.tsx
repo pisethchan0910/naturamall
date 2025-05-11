@@ -16,12 +16,16 @@ interface CartContextType {
   removeFromCart: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
+  totalPrice: number; // Added totalPrice
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  // Calculate totalPrice whenever cartItems changes
+  const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
   const addToCart = (product: Omit<CartItem, 'quantity'>, quantity: number) => {
     setCartItems(prevItems => {
@@ -62,7 +66,7 @@ export const CartProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart }}>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart, totalPrice }}>
       {children}
     </CartContext.Provider>
   );

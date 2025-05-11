@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FC, use } from 'react'; // Import `use`
+import { useState, type FC, use, useEffect } from 'react'; // Added useEffect
 import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 
@@ -8,14 +8,13 @@ import { useCart } from '@/context/CartContext';
 interface Product {
   id: string;
   name: string;
-  price: string; // Price is string like "$199.99"
+  price: string; 
   description: string;
   imageUrl: string;
   images: { src: string; alt: string }[];
 }
 
 // Placeholder function to fetch product data by ID
-// In a real application, this would fetch from an API or database
 const getProductById = (id: string): Product | null => {
   const products: Product[] = [
     {
@@ -34,6 +33,7 @@ const getProductById = (id: string): Product | null => {
   return products.find(p => p.id === id) || null;
 };
 
+
 interface ProductPageResolvedParams {
   id: string;
 }
@@ -43,12 +43,26 @@ interface ProductPageProps {
 }
 
 const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
-  const actualParams = use(paramsPromise); // Unwrap the promise to get the actual params object
-  const { id } = actualParams; // Destructure id from the resolved params
+  const actualParams = use(paramsPromise); 
+  const { id } = actualParams; 
 
   const product = getProductById(id);
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
+  // New state for toast
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+
+  // useEffect for toast auto-hide
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (showToast) {
+      timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000); // Hide toast after 3 seconds
+    }
+    return () => clearTimeout(timer); // Cleanup timer
+  }, [showToast]);
 
   if (!product) {
     return (
@@ -61,36 +75,60 @@ const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
 
   const handleAddToCart = () => {
     if (product) {
-      let priceAsNumber = Number.NaN; // Corrected: Use Number.NaN
+      let priceAsNumber = Number.NaN;
 
       if (typeof product.price === 'string') {
         const strippedPrice = product.price.replace(/[^\d.-]/g, '');
-        if (strippedPrice) { // Ensure not an empty string before parsing
+        if (strippedPrice) { 
           priceAsNumber = Number.parseFloat(strippedPrice);
         }
       }
 
-      // If price is still NaN after attempting to parse, log an error and default to 0
-      if (Number.isNaN(priceAsNumber)) { // Corrected: Use Number.isNaN
-        console.error(`Failed to parse price for product ${product.name} (ID: ${product.id}): "${product.price}". Using 0.00 as fallback.`);
-        priceAsNumber = 0;
+      if (Number.isNaN(priceAsNumber)) {
+        console.error(`Failed to parse price for product ${product.name} (ID: ${product.id}): \"${product.price}\". Using 0.00 as fallback.`);
+        priceAsNumber = 0; 
       }
 
       addToCart(
         {
           id: product.id,
           name: product.name,
-          price: priceAsNumber, // Use the parsed (and potentially defaulted) number
-          image: product.imageUrl, // Matches CartItem interface (image is optional)
+          price: priceAsNumber, 
+          image: product.imageUrl, 
         },
         quantity
       );
-      alert(`${quantity} of ${product.name} added to cart!`);
+      // Update toast state instead of alert
+      setToastMessage(`${quantity} of ${product.name} added to cart!`);
+      setShowToast(true);
     }
   };
 
   return (
     <main className="flex-grow container mx-auto px-4 py-8">
+      {/* Toast Notification */}
+      {showToast && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '80px', 
+            right: '20px',
+            backgroundColor: '#48BB78', // green-500
+            color: 'white',
+            padding: '1rem 1.5rem', 
+            borderRadius: '0.5rem', 
+            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', // shadow-lg
+            zIndex: 100, 
+            transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out',
+            opacity: showToast ? 1 : 0,
+            transform: showToast ? 'translateX(0)' : 'translateX(100%)',
+          }}
+        >
+          <p className="font-semibold">Success!</p>
+          <p>{toastMessage}</p>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
         {/* Image Gallery */}
         <div className="product-gallery">
@@ -151,8 +189,6 @@ const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
             Add to Cart
           </button>
 
-          {/* Additional details can be added here */}
-          {/* e.g., Share buttons, Wishlist, Product specs table */}
         </div>
       </div>
     </main>
