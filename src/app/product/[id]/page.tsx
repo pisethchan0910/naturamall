@@ -8,31 +8,15 @@ import { useCart } from '@/context/CartContext';
 interface Product {
   id: string;
   name: string;
-  price: string; 
-  description: string;
+  price: string;
+  originalPrice?: string;
   imageUrl: string;
-  images: { src: string; alt: string }[];
+  storeName?: string;
+  salesVolume?: string;
+  href: string;
+  description?: string;
+  images?: { src: string; alt: string }[];
 }
-
-// Placeholder function to fetch product data by ID
-const getProductById = (id: string): Product | null => {
-  const products: Product[] = [
-    {
-      id: '1',
-      name: 'Premium Wireless Headphones',
-      price: '$199.99',
-      description: 'Experience immersive sound with these premium wireless headphones. Features noise-cancellation, long battery life, and a comfortable design for all-day wear. Perfect for music lovers and professionals alike.',
-      imageUrl: '/assets/a.jpg', // Main image
-      images: [
-        { src: '/assets/a.jpg', alt: 'Headphones front view' },
-        { src: '/assets/b.jpg', alt: 'Headphones side view' },
-        { src: '/assets/c.jpg', alt: 'Headphones on a stand' },
-      ],
-    },
-  ];
-  return products.find(p => p.id === id) || null;
-};
-
 
 interface ProductPageResolvedParams {
   id: string;
@@ -43,17 +27,33 @@ interface ProductPageProps {
 }
 
 const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
-  const actualParams = use(paramsPromise); 
-  const { id } = actualParams; 
-
-  const product = getProductById(id);
+  const actualParams = use(paramsPromise);
+  const { id } = actualParams;
   const { addToCart } = useCart();
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [quantity, setQuantity] = useState(1);
-  // New state for toast
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
-  // useEffect for toast auto-hide
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch('/api/products');
+        if (!res.ok) throw new Error('Failed to fetch products');
+        const data: Product[] = await res.json();
+        const found = data.find((p) => p.id === id);
+        setProduct(found || null);
+      } catch (err: any) {
+        setError(err.message || 'Unknown error');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
+
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (showToast) {
@@ -64,7 +64,15 @@ const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
     return () => clearTimeout(timer); // Cleanup timer
   }, [showToast]);
 
-  if (!product) {
+  if (loading) {
+    return (
+      <main className="flex-grow container mx-auto px-4 py-8 text-center">
+        <h1 className="text-2xl font-semibold">Loading...</h1>
+      </main>
+    );
+  }
+
+  if (error || !product) {
     return (
       <main className="flex-grow container mx-auto px-4 py-8 text-center">
         <h1 className="text-2xl font-semibold">Product not found</h1>
@@ -74,34 +82,27 @@ const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
   }
 
   const handleAddToCart = () => {
-    if (product) {
-      let priceAsNumber = Number.NaN;
-
-      if (typeof product.price === 'string') {
-        const strippedPrice = product.price.replace(/[^\d.-]/g, '');
-        if (strippedPrice) { 
-          priceAsNumber = Number.parseFloat(strippedPrice);
-        }
+    let priceAsNumber = Number.NaN;
+    if (typeof product.price === 'string') {
+      const strippedPrice = product.price.replace(/[^\d.-]/g, '');
+      if (strippedPrice) {
+        priceAsNumber = Number.parseFloat(strippedPrice);
       }
-
-      if (Number.isNaN(priceAsNumber)) {
-        console.error(`Failed to parse price for product ${product.name} (ID: ${product.id}): \"${product.price}\". Using 0.00 as fallback.`);
-        priceAsNumber = 0; 
-      }
-
-      addToCart(
-        {
-          id: product.id,
-          name: product.name,
-          price: priceAsNumber, 
-          image: product.imageUrl, 
-        },
-        quantity
-      );
-      // Update toast state instead of alert
-      setToastMessage(`${quantity} of ${product.name} added to cart!`);
-      setShowToast(true);
     }
+    if (Number.isNaN(priceAsNumber)) {
+      priceAsNumber = 0;
+    }
+    addToCart(
+      {
+        id: product.id,
+        name: product.name,
+        price: priceAsNumber,
+        image: product.imageUrl,
+      },
+      quantity
+    );
+    setToastMessage(`${quantity} of ${product.name} added to cart!`);
+    setShowToast(true);
   };
 
   return (
@@ -111,14 +112,14 @@ const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
         <div
           style={{
             position: 'fixed',
-            top: '80px', 
+            top: '80px',
             right: '20px',
             backgroundColor: '#48BB78', // green-500
             color: 'white',
-            padding: '1rem 1.5rem', 
-            borderRadius: '0.5rem', 
+            padding: '1rem 1.5rem',
+            borderRadius: '0.5rem',
             boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', // shadow-lg
-            zIndex: 100, 
+            zIndex: 100,
             transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out',
             opacity: showToast ? 1 : 0,
             transform: showToast ? 'translateX(0)' : 'translateX(100%)',
@@ -142,7 +143,7 @@ const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
             />
           </div>
           <div className="thumbnail-images grid grid-cols-3 sm:grid-cols-4 gap-2">
-            {product.images.map((img) => (
+            {product.images?.map((img) => (
               <div key={img.src} className="thumbnail border border-gray-200 rounded overflow-hidden cursor-pointer hover:border-red-500">
                 <Image
                   src={img.src}
