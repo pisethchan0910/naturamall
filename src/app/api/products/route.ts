@@ -9,7 +9,8 @@ const products = [
     imageUrl: '/assets/products/1.jpg',
     storeName: 'Fashionista Boutique',
     salesVolume: '3000+ sold',
-    href: '/product/1'
+    href: '/product/1',
+    detailImages: ['/assets/products/1.jpg', '/assets/products/2.jpg', '/assets/products/3.jpg']
   },
   {
     id: '2',
@@ -18,7 +19,8 @@ const products = [
     imageUrl: '/assets/products/2.jpg',
     storeName: 'Tech World',
     salesVolume: '1500+ sold',
-    href: '/product/2'
+    href: '/product/2',
+    detailImages: ['/assets/products/2.jpg', '/assets/products/3.jpg', '/assets/products/4.jpg']
   },
   {
     id: '3',
@@ -28,7 +30,8 @@ const products = [
     imageUrl: '/assets/products/3.jpg',
     storeName: 'Sporty Goods',
     salesVolume: '5000+ sold',
-    href: '/product/3'
+    href: '/product/3',
+    detailImages: ['/assets/products/3.jpg', '/assets/products/4.jpg', '/assets/products/5.jpg']
   },
   {
     id: '4',
@@ -37,7 +40,8 @@ const products = [
     imageUrl: '/assets/products/6.jpg',
     storeName: 'Healthy Living Store',
     salesVolume: '2000+ sold',
-    href: '/product/4'
+    href: '/product/4',
+    detailImages: ['/assets/products/6.jpg', '/assets/products/1.jpg', '/assets/products/2.jpg']
   },
   {
     id: '5',
@@ -47,7 +51,8 @@ const products = [
     imageUrl: '/assets/products/5.jpg',
     storeName: 'AudioPhile Store',
     salesVolume: '2500+ sold',
-    href: '/product/5'
+    href: '/product/5',
+    detailImages: ['/assets/products/5.jpg', '/assets/products/6.jpg', '/assets/products/1.jpg']
   },
   {
     id: '6',
@@ -56,7 +61,8 @@ const products = [
     imageUrl: '/assets/products/4.jpg',
     storeName: 'Chic Accessories',
     salesVolume: '800+ sold',
-    href: '/product/6'
+    href: '/product/6',
+    detailImages: ['/assets/products/4.jpg', '/assets/products/5.jpg', '/assets/products/6.jpg']
   },
   {
     id: '7',
@@ -65,7 +71,8 @@ const products = [
     imageUrl: '/assets/products/5.jpg',
     storeName: 'Secure Home Inc.',
     salesVolume: '1200+ sold',
-    href: '/product/7'
+    href: '/product/7',
+    detailImages: ['/assets/products/5.jpg', '/assets/products/6.jpg', '/assets/products/1.jpg']
   },
   {
     id: '8',
@@ -75,7 +82,8 @@ const products = [
     imageUrl: '/assets/products/6.jpg',
     storeName: 'PlayLearn Toys',
     salesVolume: '4000+ sold',
-    href: '/product/8'
+    href: '/product/8',
+    detailImages: ['/assets/products/6.jpg', '/assets/products/1.jpg', '/assets/products/2.jpg']
   },
   {
     id: '9',
@@ -84,7 +92,8 @@ const products = [
     imageUrl: '/assets/products/1.jpg',
     storeName: 'Office Comforts',
     salesVolume: '700+ sold',
-    href: '/product/9'
+    href: '/product/9',
+    detailImages: ['/assets/products/1.jpg', '/assets/products/2.jpg', '/assets/products/3.jpg']
   },
   {
     id: '10',

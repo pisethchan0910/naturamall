@@ -1,10 +1,13 @@
 'use client';
 
-import { useState, type FC, use, useEffect } from 'react'; // Added useEffect
+import { useState, type FC, use, useEffect } from 'react';
 import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
+// Remove Swiper imports
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { useRef } from 'react';
 
-// Placeholder product data type
 interface Product {
   id: string;
   name: string;
@@ -16,6 +19,7 @@ interface Product {
   href: string;
   description?: string;
   images?: { src: string; alt: string }[];
+  detailImages?: string[];
 }
 
 interface ProductPageResolvedParams {
@@ -23,7 +27,7 @@ interface ProductPageResolvedParams {
 }
 
 interface ProductPageProps {
-  params: Promise<ProductPageResolvedParams>; // params is now a Promise
+  params: Promise<ProductPageResolvedParams>;
 }
 
 const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
@@ -59,9 +63,9 @@ const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
     if (showToast) {
       timer = setTimeout(() => {
         setShowToast(false);
-      }, 3000); // Hide toast after 3 seconds
+      }, 3000);
     }
-    return () => clearTimeout(timer); // Cleanup timer
+    return () => clearTimeout(timer);
   }, [showToast]);
 
   if (loading) {
@@ -105,20 +109,59 @@ const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
     setShowToast(true);
   };
 
+  const ImageGallery = ({ images, productName }: { images: string[]; productName: string }) => {
+    const [activeIdx, setActiveIdx] = useState(0);
+        return (
+          <div className="flex mb-4 overflow-hidden rounded-lg aspect-square bg-white">
+        {/* Thumbnails on the left */}
+        <div className="flex flex-col gap-2 p-2 justify-center items-center">
+          {images.map((img, idx) => (
+            <button
+              key={img}
+              type="button"
+            className={`border rounded overflow-hidden w-14 h-14 flex items-center justify-center focus:outline-none ${activeIdx === idx ? 'border-red-500' : 'border-gray-200'} cursor-pointer`}
+              onClick={() => setActiveIdx(idx)}
+              aria-label={`Show image ${idx + 1}`}
+            >
+              <Image
+                src={img}
+                alt={`${productName} thumbnail ${idx + 1}`}
+                width={56}
+                height={56}
+                className="object-cover w-full h-full"
+              />
+            </button>
+          ))}
+        </div>
+        {/* Main image on the right */}
+        <div className="flex-1 relative flex items-center justify-center">
+          <Image
+            src={images[activeIdx]}
+            alt={`${productName} image ${activeIdx + 1}`}
+            fill
+            className="object-cover rounded-lg"
+            sizes="100vw"
+            priority
+          />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <main className="flex-grow container mx-auto px-4 py-8">
-      {/* Toast Notification */}
       {showToast && (
         <div
           style={{
             position: 'fixed',
             top: '80px',
             right: '20px',
-            backgroundColor: '#48BB78', // green-500
+            backgroundColor: '#48BB78',
             color: 'white',
             padding: '1rem 1.5rem',
             borderRadius: '0.5rem',
-            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', // shadow-lg
+            boxShadow:
+              '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
             zIndex: 100,
             transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out',
             opacity: showToast ? 1 : 0,
@@ -131,57 +174,65 @@ const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
-        {/* Image Gallery */}
         <div className="product-gallery">
-          <div className="main-image mb-4 overflow-hidden rounded-lg shadow-lg">
-            <Image
-              src={product.imageUrl}
-              alt={product.name}
-              width={600}
-              height={600}
-              className="w-full h-auto object-cover"
-            />
-          </div>
+          {product.detailImages && product.detailImages.length > 0 && (
+            <ImageGallery images={product.detailImages} productName={product.name} />
+          )}
           <div className="thumbnail-images grid grid-cols-3 sm:grid-cols-4 gap-2">
             {product.images?.map((img) => (
-              <div key={img.src} className="thumbnail border border-gray-200 rounded overflow-hidden cursor-pointer hover:border-red-500">
+              <div
+                key={img.src}
+                className="thumbnail border border-gray-200 rounded overflow-hidden cursor-pointer hover:border-red-500 relative aspect-square"
+              >
                 <Image
                   src={img.src}
                   alt={img.alt}
-                  width={100}
-                  height={100}
-                  className="w-full h-auto object-cover"
+                  fill
+                  className="object-cover"
+                  sizes="100px"
                 />
               </div>
             ))}
           </div>
         </div>
 
-        {/* Product Info */}
         <div className="product-info">
-          <h1 className="text-3xl lg:text-4xl font-bold mb-3 text-gray-800">{product.name}</h1>
-          <p className="text-2xl font-semibold text-red-600 mb-4">{product.price}</p>
-          
+          <h1 className="text-3xl lg:text-4xl font-bold mb-3 text-gray-800">
+            {product.name}
+          </h1>
+          <p className="text-2xl font-semibold text-red-600 mb-4">
+            {product.price}
+          </p>
+
           <div className="mb-6">
-            <h2 className="text-xl font-semibold text-gray-700 mb-2">Description</h2>
-            <p className="text-gray-600 leading-relaxed">{product.description}</p>
+            <h2 className="text-xl font-semibold text-gray-700 mb-2">
+              Description
+            </h2>
+            <p className="text-gray-600 leading-relaxed">
+              {product.description}
+            </p>
           </div>
 
-          {/* Quantity Selector - Basic */}
           <div className="mb-6">
-            <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+            <label
+              htmlFor="quantity"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Quantity
+            </label>
             <input
               type="number"
               id="quantity"
               name="quantity"
               min="1"
               value={quantity}
-              onChange={(e) => setQuantity(Number.parseInt(e.target.value, 10) || 1)}
+              onChange={(e) =>
+                setQuantity(Number.parseInt(e.target.value, 10) || 1)
+              }
               className="w-20 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm"
             />
           </div>
 
-          {/* Add to Cart Button */}
           <button
             type="button"
             onClick={handleAddToCart}
@@ -189,7 +240,6 @@ const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
           >
             Add to Cart
           </button>
-
         </div>
       </div>
     </main>
