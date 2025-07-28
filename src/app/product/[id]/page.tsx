@@ -208,7 +208,7 @@ const ProductDetailPage: FC<ProductPageProps> = ({ params: paramsPromise }) => {
             <h2 className="text-xl font-semibold text-gray-700 mb-2">
               Description
             </h2>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-gray-600 leading-relaxed whitespace-pre-line">
               {product.description}
             </p>
           </div>

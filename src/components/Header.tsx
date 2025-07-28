@@ -66,13 +66,6 @@ const Header = () => {
               Search
             </button>
           </form>
-          {/* Trending searches - hidden on small screens */}
-          <div className="mt-1.5 flex-wrap space-x-2 text-xs text-gray-500 hidden sm:flex">
-            <Link href="/search?q=summer+dresses" className="hover:text-red-500 hover:underline">Summer Dresses</Link>
-            <Link href="/search?q=sneakers" className="hover:text-red-500 hover:underline">Sneakers</Link>
-            <Link href="/search?q=smartphones" className="hover:text-red-500 hover:underline hidden md:inline">Smartphones</Link>
-            <Link href="/search?q=home+decor" className="hover:text-red-500 hover:underline hidden lg:inline">Home Decor</Link>
-          </div>
         </div>
 
         {/* QR Code Placeholder - hidden on small screens, order changed for mobile */}

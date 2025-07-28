@@ -44,118 +44,77 @@ const carouselSlidesData = [
 // Updated category data structure
 const categoriesData: Category[] = [
   {
-    name: "Computer, Office, Stationery", // Full name for flyout title or alt text
-    displayShort: "Computer / Office / stati", // Short display text for sidebar
-    href: "/category/computer-office",
-    icon: "💻", // Changed icon to be more relevant
-    subCategories: [
-      { name: "Laptops", href: "/category/computer-office/laptops", subLinks: ["Gaming Laptops", "Ultrabooks"] },
-      { name: "Desktops", href: "/category/computer-office/desktops", subLinks: ["All-in-Ones", "Towers"] },
-      { name: "Office Supplies", href: "/category/computer-office/supplies", subLinks: ["Printers", "Monitors"] },
-    ],
-    promoImage: "/promos/office-promo.jpg",
-    promoLink: "/promo/office-deals"
+    name: "បន្លែស្រស់", // Fresh Vegetables
+    displayShort: "បន្លែស្រស់",
+    href: "/category/fresh-vegetables",
+    icon: "🥬",
+    subCategories: [],
+    promoImage: "/assets/veggie-promo.jpg",
+    promoLink: "/promo/fresh-vegetables"
   },
   {
-    name: "Household Appliances, Mobile Phones",
-    displayShort: "household appliance / cell",
-    href: "/category/appliances-mobile",
-    icon: "📱",
-    subCategories: [
-      { name: "Smartphones", href: "/category/appliances-mobile/smartphones", subLinks: ["New Releases", "Accessories"] },
-      { name: "Home Appliances", href: "/category/appliances-mobile/home-appliances", subLinks: ["Kitchen", "Cleaning"] },
-    ],
+    name: "បន្លែដាំក្នុងផ្ទះ", // Homegrown Vegetables
+    displayShort: "ដាំក្នុងផ្ទះ",
+    href: "/category/homegrown",
+    icon: "🌿",
+    subCategories: [],
+    promoImage: "/assets/homegrown.jpg",
+    promoLink: "/promo/homegrown"
   },
   {
-    name: "Furniture, Home Decor",
-    displayShort: "furniture / Home / home",
-    href: "/category/furniture-decor",
-    icon: "🛋️", // Changed icon
-    subCategories: [
-        { name: "Living Room", href: "/category/furniture-decor/living-room", subLinks: ["Sofas", "Coffee Tables"] },
-        { name: "Bedroom", href: "/category/furniture-decor/bedroom", subLinks: ["Beds", "Wardrobes"] },
-    ]
+    name: "បន្លែអាហារូបត្ថម្ភខ្ពស់", // High Nutrition Vegetables
+    displayShort: "អាហារូបត្ថម្ភខ្ពស់",
+    href: "/category/nutritious",
+    icon: "🥦",
+    subCategories: [],
+    promoImage: "/assets/nutritious.jpg",
+    promoLink: "/promo/nutritious"
   },
   {
-    name: "Women\'s Fashion, Men\'s Fashion, Underwear",
-    displayShort: "Ladies / Men / undergarr",
-    href: "/category/fashion-all",
-    icon: "👗",
-    subCategories: [
-      { name: "Women\'s Dresses", href: "/category/fashion-all/womens-dresses", subLinks: ["Summer", "Party"] },
-      { name: "Men\'s Shirts", href: "/category/fashion-all/mens-shirts", subLinks: ["Formal", "Casual"] },
-    ],
+    name: "បន្លែសម្រាប់ម្ហូបខ្មែរ", // Khmer Cooking Vegetables
+    displayShort: "ម្ហូបខ្មែរ",
+    href: "/category/khmer-cuisine",
+    icon: "🍛",
+    subCategories: [],
+    promoImage: "/assets/khmer-cuisine.jpg",
+    promoLink: "/promo/khmer-vegetables"
   },
   {
-    name: "Shoes, Men\'s Shoes, Bags",
-    displayShort: "Shoes / Men\'s shoes / m",
-    href: "/category/shoes-bags",
-    icon: "👟",
-    subCategories: [
-      { name: "Women\'s Shoes", href: "/category/shoes-bags/womens", subLinks: ["Heels", "Sneakers"] },
-      { name: "Men\'s Shoes", href: "/category/shoes-bags/mens", subLinks: ["Formal", "Boots"] },
-    ],
+    name: "បន្លែសាច់ក្រាស់", // Starchy Vegetables
+    displayShort: "សាច់ក្រាស់",
+    href: "/category/starchy",
+    icon: "🥔",
+    subCategories: [],
+    promoImage: "/assets/starchy.jpg",
+    promoLink: "/promo/starchy"
   },
   {
-    name: "Watches, Jewelry, Accessories",
-    displayShort: "Watches / jewelry / Acce:",
-    href: "/category/watches-jewelry",
-    icon: "⌚",
-    subCategories: [
-      { name: "Watches", href: "/category/watches-jewelry/watches", subLinks: ["Smartwatches", "Luxury"] },
-      { name: "Jewelry", href: "/category/watches-jewelry/jewelry", subLinks: ["Necklaces", "Rings"] },
-    ],
+    name: "បន្លែសុទ្ធអង្ករ", // Organic Rice Vegetables
+    displayShort: "សុទ្ធអង្ករ",
+    href: "/category/organic-rice",
+    icon: "🌾",
+    subCategories: [],
+    promoImage: "/assets/organic-rice.jpg",
+    promoLink: "/promo/organic-rice"
   },
   {
-    name: "Automotive Parts, Cars, Travel",
-    displayShort: "Car / Car / Travel",
-    href: "/category/automotive-travel",
-    icon: "🚗",
-    subCategories: [
-      { name: "Car Parts", href: "/category/automotive-travel/parts" },
-      { name: "Travel Gear", href: "/category/automotive-travel/gear" },
-    ],
+    name: "បន្លែដើម", // Root Vegetables
+    displayShort: "បន្លែដើម",
+    href: "/category/roots",
+    icon: "🫒",
+    subCategories: [],
+    promoImage: "/assets/roots.jpg",
+    promoLink: "/promo/roots"
   },
   {
-    name: "Foodstuff, Fresh Produce, Health",
-    displayShort: "foodstuff / Fresh / health",
-    href: "/category/food-health",
-    icon: "🍎",
-    subCategories: [
-      { name: "Snacks", href: "/category/food-health/snacks" },
-      { name: "Health Supplements", href: "/category/food-health/supplements" },
-    ],
-  },
-  {
-    name: "Mother & Baby, Children\'s Clothing",
-    displayShort: "Mother / Children\'s clothir",
-    href: "/category/mother-baby",
-    icon: "🧸",
-    subCategories: [
-      { name: "Baby Gear", href: "/category/mother-baby/baby-gear" },
-      { name: "Kids\' Fashion", href: "/category/mother-baby/kids-fashion" },
-    ],
-  },
-  {
-    name: "Makeup, Personal Care, Cleaning",
-    displayShort: "Make-up / Wash and care",
-    href: "/category/beauty-care",
-    icon: "💄",
-    subCategories: [
-      { name: "Makeup", href: "/category/beauty-care/makeup" },
-      { name: "Skincare", href: "/category/beauty-care/skincare" },
-    ],
-  },
-  {
-    name: "Entertainment, Books, Hobbies",
-    displayShort: "amusement / Books / fre",
-    href: "/category/entertainment-books",
-    icon: "📚",
-    subCategories: [
-      { name: "Books", href: "/category/entertainment-books/books" },
-      { name: "Games", href: "/category/entertainment-books/games" },
-    ],
-  },
+    name: "បន្លែត្រជាក់", // Chilled Vegetables
+    displayShort: "ត្រជាក់",
+    href: "/category/chilled",
+    icon: "❄️",
+    subCategories: [],
+    promoImage: "/assets/chilled.jpg",
+    promoLink: "/promo/chilled"
+  }
 ];
 
 const promoBlocksData = [
@@ -240,39 +199,6 @@ const HeroSection = () => {
                       {/* Arrow removed to match image more closely, flyout still works */}
                     </Link>
 
-                    {/* Fly-out Menu */}
-                    {activeCategory === category.name && (
-                      <div
-                        className="absolute left-full top-0 -mt-px w-auto min-w-[500px] max-w-[700px] bg-white border border-gray-200 rounded-r-lg shadow-xl p-5 z-30 grid grid-cols-3 gap-x-5 gap-y-3"
-                        style={{ marginLeft: '0px' }}
-                      >
-                        {category.subCategories.map((subCat) => (
-                          <div key={subCat.name} className="p-0">
-                            <Link href={subCat.href} className="font-semibold text-xs text-gray-800 hover:text-red-500 hover:underline mb-1 block">{subCat.name}</Link>
-                            <ul className="space-y-0.5">
-                                {subCat.subLinks?.map((linkName: string) => ( // Added type for linkName
-                                    <li key={linkName}>
-                                        <Link href={`${subCat.href}/${linkName.toLowerCase().replace(/\s+/g, '-')}`} className="block text-xxs text-gray-600 hover:text-red-500 hover:underline">
-                                            {linkName}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-                          </div>
-                        ))}
-                        {category.promoImage && (
-                            <div className="col-span-3 mt-3 pt-3 border-t border-gray-200">
-                                <Link href={category.promoLink || '#'}
-                                    // Removed 'block' as 'flex' is present
-                                    className="h-24 rounded overflow-hidden bg-gray-200 flex items-center justify-center text-gray-500 relative"
-                                >
-                                    <div className="absolute inset-0 bg-gray-300 animate-pulse rounded" />
-                                    <span className="relative z-10">Promo: {category.name}</span>
-                                </Link>
-                            </div>
-                        )}
-                      </div>
-                    )}
                   </li>
                 ))}
               </ul>

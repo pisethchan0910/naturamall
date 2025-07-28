@@ -42,7 +42,7 @@ const FeaturedProducts = () => {
     <section className="bg-white py-8 md:py-12">
       <div className="container mx-auto px-2 sm:px-4">
         <div className="flex justify-between items-center mb-6 md:mb-8">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-800">猜你喜欢 - Our Product</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800">ផលិតផល - Our Product</h2>
           <Link href="/all-featured" className="text-sm text-red-500 hover:underline font-medium">
             View More &rarr;
           </Link>
