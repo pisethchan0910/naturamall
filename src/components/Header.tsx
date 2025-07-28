@@ -30,13 +30,9 @@ const Header = () => {
             <span className="border-l border-gray-300 hidden sm:inline" />
             <Link href="/my-orders" className="hover:text-red-500 hover:underline">My Orders</Link>
             <span className="border-l border-gray-300 hidden sm:inline" />
-            <Link href="/my-tmall" className="hover:text-red-500 hover:underline hidden sm:inline">My Tmall</Link>
-            <span className="border-l border-gray-300 hidden md:inline" />
             <Link href="/favorites" className="hover:text-red-500 hover:underline hidden md:inline">Favorites</Link>
             <span className="border-l border-gray-300" />
             <Link href="/customer-service" className="hover:text-red-500 hover:underline">Customer Service</Link>
-            <span className="border-l border-gray-300 hidden lg:inline" />
-            <Link href="/site-navigation" className="hover:text-red-500 hover:underline hidden lg:inline">Site Navigation</Link>
           </div>
         </div>
       </div>
@@ -46,7 +42,7 @@ const Header = () => {
         {/* Logo */}
         <div className="flex-shrink-0 mb-2 sm:mb-0">
           <Link href="/">
-            <span className="text-3xl sm:text-4xl font-extrabold text-red-600">Tmall</span>
+            <span className="text-3xl sm:text-4xl font-extrabold text-red-600">Natura Mall</span>
             {/* <Image src="/path-to-your-logo.svg" alt="Tmall Logo" width={150} height={40} /> */}
           </Link>
         </div>
@@ -70,10 +66,10 @@ const Header = () => {
 
         {/* QR Code Placeholder - hidden on small screens, order changed for mobile */}
         <div className="flex-shrink-0 hidden md:flex order-2 sm:order-3 ml-2 sm:ml-0">
-           <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gray-100 border border-gray-200 flex flex-col items-center justify-center text-gray-400 rounded-md text-center p-1">
+           {/* <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gray-100 border border-gray-200 flex flex-col items-center justify-center text-gray-400 rounded-md text-center p-1">
             <span className="text-xs">Scan for App</span>
             <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gray-300 mt-1" />
-           </div>
+           </div> */}
         </div>
       </div>
 

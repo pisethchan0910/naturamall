@@ -178,7 +178,7 @@ const HeroSection = () => {
           {/* Sidebar: Categories */}
           <aside className="bg-red-500 p-3 md:p-4 rounded-lg shadow-lg relative z-20 flex flex-col"> {/* Added flex flex-col */}
             <h2 className="text-sm font-bold mb-1.5 text-white px-1.5 flex items-center">
-              Categories
+              ជម្រើសអាហារ
               <span className="ml-1.5 bg-white text-red-500 text-[10px] font-bold px-1 py-0.5 rounded-sm">NEW</span>
             </h2>
             <nav className="flex-grow"> {/* Added flex-grow */}
